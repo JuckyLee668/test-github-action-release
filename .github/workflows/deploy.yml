@@ -41,6 +41,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: /output/  # 需要发布的文件路径
+          asset_path: ./output/1.img  # 需要发布的文件路径
           asset_name: "1.img"  # 文件名
           asset_content_type: application/octet-stream
