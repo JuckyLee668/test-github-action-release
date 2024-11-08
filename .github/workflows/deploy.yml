@@ -10,10 +10,24 @@ jobs:
         run: | 
           mkdir output
           touch 1.img
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: TODO New Release.
+          draft: false
+          prerelease: false
+        
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-              upload_url: ${{ steps.Release.outputs.upload_url }}
-              asset_path: output/1.img
-              asset_name: 1.img
-              asset_content_type: application/octet-stream
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{ secrets.ReleaseZipName }}.zip
+          asset_name: ${{ secrets.ReleaseZipName }}.zip
+          asset_content_type: application/octet-stream
