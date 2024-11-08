@@ -29,4 +29,4 @@ jobs:
               upload_url: ${{ steps.create_release.outputs.upload_url }}
               asset_path: output/1.img
               asset_name: update${{ github.ref }}.img
-              #asset_content_type: application/gzip
+              asset_content_type: application/octet-stream
