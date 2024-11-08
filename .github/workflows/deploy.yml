@@ -1,37 +1,37 @@
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: 
+name: Release
+
+on:
   push:
-    tags:
-      - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+    branches:
+      - main  # 设置为你希望触发 release 的分支
+
 jobs:
-  Explore-GitHub-Actions:
+  release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+
     steps:
       - name: mkdir
-        run: | 
+        run: |
           mkdir output
           touch 1.img
-      - name: Create GitHub Release
+      - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v1.0.0
-          release_name: Release v1.0.0
-          body: |
-            Release notes for v1.0.0
+          tag_name: v1.0.0  # 版本号，可以使用变量动态生成
+          release_name: "Release v1.0.0"
+          body: "自动发布的 Release"
           draft: false
           prerelease: false
-        
+
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ secrets.ReleaseZipName }}.zip
-          asset_name: ${{ secrets.ReleaseZipName }}.zip
+          asset_path: ./output/1.img  # 需要发布的文件路径
+          asset_name: "1.img"  # 文件名
           asset_content_type: application/octet-stream
