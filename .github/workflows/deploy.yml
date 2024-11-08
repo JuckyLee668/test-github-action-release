@@ -20,14 +20,14 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-            GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-
+           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         with:
-          tag_name: v1.0.0  # 版本号，可以使用变量动态生成
-          release_name: "Release v1.0.0"
+          tag_name: "v1.0.0-${{ github.run_number }}"  # 使用运行号确保 tag 唯一
+          release_name: "Release v1.0.0-${{ github.run_number }}"
           body: "自动发布的 Release"
           draft: false
           prerelease: false
+
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
