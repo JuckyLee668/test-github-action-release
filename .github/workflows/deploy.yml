@@ -1,3 +1,4 @@
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
   Explore-GitHub-Actions:
@@ -5,38 +6,27 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup environment
-        run: |
-          sudo apt update
-          sudo apt install -y expect
-      - name: Run build script
-        run: |
-          set -e
-          expect -c '
-          spawn ./build.sh init
-          expect "Choose an option:"
-          send "1\r"
-          expect eof
-          '
-          ./build.sh
+      - name: mkdir
+        run: | 
+          mkdir output
+          touch 1.img
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
-          draft: false
-          prerelease: false
+              tag_name: v1.0.0
+              release_name: Release ${{ github.ref }}
+              draft: false
+              prerelease: false
       - name: Upload Release Asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: output/1.img
-          asset_name: update${{ github.ref_name }}.img
-          # asset_content_type: application/gzip
+              upload_url: ${{ steps.create_release.outputs.upload_url }}
+              asset_path: output/1.img
+              asset_name: update${{ github.ref }}.img
+              #asset_content_type: application/gzip
