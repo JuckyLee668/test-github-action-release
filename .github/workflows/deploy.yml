@@ -14,19 +14,19 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-              tag_name: v1.0.0
-              release_name: Release ${{ github.ref }}
-              draft: false
-              prerelease: false
+          tag_name: ${{ env.TAG_NAME }}
+          release_name: Release ${{ env.TAG_NAME }}
+          draft: false
+          prerelease: false
       - name: Upload Release Asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-              upload_url: ${{ steps.create_release.outputs.upload_url }}
-              asset_path: output/1.img
-              asset_name: update${{ github.ref }}.img
-              asset_content_type: application/octet-stream
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: output/1.img
+          asset_name: update${{ env.TAG_NAME }}.img
+          asset_content_type: application/octet-stream
