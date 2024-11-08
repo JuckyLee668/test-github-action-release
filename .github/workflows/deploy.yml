@@ -5,8 +5,7 @@ on:
     branches:
       - main  # 设置为你希望触发 release 的分支
 permissions:
-  pull-requests: read
-  statuses: write
+  contents: write
 
 jobs:
   release:
@@ -21,7 +20,8 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
         with:
           tag_name: v1.0.0  # 版本号，可以使用变量动态生成
           release_name: "Release v1.0.0"
